@@ -1,17 +1,48 @@
 version: '3'
 services:
-  service:
-    build: app
-    expose:
-      - "8000"
-
+  postgres:
+    image: postgres:13
+    restart: always
+    volumes:
+      - ~/.pg/pg_data:/var/lib/postgresql/data
+    env_file:
+      - ./.env
+    container_name: postgres_django
+    ports:
+      - "5432:5432"
+#    user: myuser
+  django:
+    container_name: django_movie
+    build: .
+    image: app_django
+    restart: always
+    ports:
+      - "8000:8000"
+    volumes:
+      - /movies_admin/static:/opt/app/movies_admin/static/
+      - ./movies_admin/media:/opt/app/movies_admin/media/
+    env_file:
+      - ./.env
+    depends_on:
+      - postgres
+#    user: myuser
   nginx:
     image: nginx:latest
+    container_name: nginx_movie
+    restart: always
     volumes:
-      - ./nginx.conf:/etc/nginx/nginx.conf:ro
-      - ./configs:/etc/nginx/conf.d:ro
-      - ./data:/data/:ro
+      - ./movies_admin/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./movies_admin/nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./movies_admin/static:/app/static/
+      - ./movies_admin/media:/app/media/
     depends_on:
-      - service
+      - django
     ports:
       - "80:80"
+
+volumes:
+  static:
+  media:
+
+
+
