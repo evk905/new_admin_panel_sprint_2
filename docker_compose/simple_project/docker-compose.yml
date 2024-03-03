@@ -19,7 +19,7 @@ services:
     ports:
       - "8000:8000"
     volumes:
-      - /movies_admin/static:/opt/app/movies_admin/static/
+      - ./movies_admin/static:/opt/app/movies_admin/static/
       - ./movies_admin/media:/opt/app/movies_admin/media/
     env_file:
       - ./.env
