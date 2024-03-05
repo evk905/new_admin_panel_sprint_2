@@ -8,26 +8,22 @@ services:
     env_file:
       - ./.env
     container_name: postgres_django
-    ports:
-      - "5432:5432"
-#    user: myuser
+
   django:
     container_name: django_movie
     build: .
     image: app_django
     restart: always
-    ports:
-      - "8000:8000"
     volumes:
-      - /movies_admin/static:/opt/app/movies_admin/static/
+      - ./movies_admin/static:/opt/app/movies_admin/static/
       - ./movies_admin/media:/opt/app/movies_admin/media/
     env_file:
       - ./.env
     depends_on:
       - postgres
-#    user: myuser
+
   nginx:
-    image: nginx:latest
+    image:  nginx:1.25.4
     container_name: nginx_movie
     restart: always
     volumes:

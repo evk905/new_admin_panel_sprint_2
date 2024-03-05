@@ -11,7 +11,7 @@ class Genre(UUIDMixin, TimeStampedMixin):
     description = models.TextField(_("description"), blank=True, null=True)
 
     class Meta:
-        db_table = 'content"."genre'
+        db_table = "content\".\"genre"
         ordering = ["-name"]
         indexes = [models.Index(fields=["-name"])]
         verbose_name = _("genre")
@@ -25,7 +25,7 @@ class Person(UUIDMixin, TimeStampedMixin):
     full_name = models.CharField(_("full name"), max_length=255)
 
     class Meta:
-        db_table = 'content"."person'
+        db_table = "content\".\"person"
         ordering = ["full_name"]
         verbose_name = _("person")
         verbose_name_plural = _("persons")
@@ -54,7 +54,7 @@ class Filmwork(UUIDMixin, TimeStampedMixin):
 
 
     class Meta:
-        db_table = 'content"."film_work'
+        db_table =  "content\".\"film_work"
         ordering = ["-creation_date"]
         indexes = [models.Index(fields=["creation_date"])]
         verbose_name = _("film work")
@@ -75,7 +75,7 @@ class GenreFilmwork(UUIDMixin):
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        db_table = 'content"."genre_film_work'
+        db_table = "content\".\"genre_film_work"
         verbose_name = _("genre film work")
         constraints = [
             models.UniqueConstraint(
@@ -92,11 +92,11 @@ class PersonFilmwork(UUIDMixin):
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        db_table = 'content"."person_film_work'
+        db_table = "content\".\"person_film_work"
         verbose_name = (_("person film work"),)
         constraints = [
             models.UniqueConstraint(
                 fields=["film_work", "person", "role"],
-                name="unique_filmwork_preson_role",
+                name="unique_filmwork_person_role",
             ),
         ]
